@@ -13,21 +13,52 @@
       border-radius: 20px;
       color: black!important;
     }
-    .nav-item {
-      width:70%;
-      
-    }
+    
     .nav-link {
-      color: white!important;
+      color: grey;
+      width:100%; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-   
-
+    .nav-item {
+      width:50%;
+    }
+    .active {
+      border: 3px solid white!important;
+      border-radius: 19px;
+      border-top-right-radius: 19px!important;
+      border-top-left-radius: 19px!important;
+      background-color: transparent!important;
+      color:white!important;
+    }
     /* Dashboard styles */
     .arrow {
       background-color: #4e4e4e;
       border: 1px solid #4e4e4e;
       border-radius: 20px;
       width:50px;
+    }
+    .nameBox {
+     
+    background-color: #00CEAA;
+    border-radius: 34px;
+    width:500px;
+    color: white;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 25px;
+
+    }
+    .nav-tabs {
+      border: 2px solid grey;
+      border-radius: 50px;
+      width:300px;
+    }
+    .fade {
+      border:none!important;
     }
     </style>
     <script src="assets/font.js"></script>
@@ -40,12 +71,30 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between" style="background-color: #302D2E;margin-left:0px;border: none!important;">
   <!-- Left navbar links -->
   
-  <div class="nav-item">
+  <div class="nav-item"style="width:100px">
     <a class="nav-link arrow d-flex align-items-center justify-content-center"  data-widget="pushmenu" href="#" role="button" 
   ><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
   </div>
- 
+  <div class="nameBox text-center align-items-center">
+      #Box 1
+  </div>
+  <div class="d-flex">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hipoksja</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hiperoksja</button>
+    </li>
+    
+  </ul>
+  </div>
 </nav>
+<div class="tab-content" id="myTabContent" style="background-color: #302D2E;">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">EWE</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Awe</div>
+  
+</div>
 <!-- /.navbar -->
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
