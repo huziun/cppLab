@@ -33,7 +33,7 @@
     <script src="assets/font.js"></script>
 
   </head>
-  <body  style=""></body>
+  <body   ></body>
     <!-- Main Sidebar Container -->
   
     <!-- Navbar -->
@@ -41,32 +41,30 @@
   <!-- Left navbar links -->
   
   <div class="nav-item">
-    <a class="nav-link arrow d-flex align-items-center justify-content-center"  data-widget="pushmenu" href="#" role="button" onclick="var element = $('#arrow');
-    
-    (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
-  "
+    <a class="nav-link arrow d-flex align-items-center justify-content-center"  data-widget="pushmenu" href="#" role="button" 
   ><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
   </div>
  
-  <div class="nav-item">
-    <a class="nav-link arrow"  data-widget="pushmenu" href="#" role="button"><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
-  </div>
-  <div class="nav-item">
-    <a class="nav-link arrow"  data-widget="pushmenu" href="#" role="button"><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
-  </div>
 </nav>
 <!-- /.navbar -->
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
-    <script src="assets/script.js"></script>
+    <script src="assets/scripte.js"></script>
     <script>
-      
       $('.arrow').click(function(){
         let element = $('#arrow');
         
         (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
-        
+        let parentLayout = $('.layout-fixed');
+        if(parentLayout.attr('class')=='layout-fixed'){
+          parentLayout.attr('class','layout-fixed sidebar-collapse')
+          $('#main').css({"margin-left":"0px"});
+        }
+       else{
+        parentLayout.attr('class', 'layout-fixed');
+        $('#main').css({"margin-left":"250px"});
+      }
       })
     </script>
   </body>

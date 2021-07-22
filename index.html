@@ -25,6 +25,7 @@
     }
     #main {
       margin-left: 250px;
+      transition: margin-left .3s ease-in-out;
     }
     .w-100 {
       width: 100%!important;
@@ -38,7 +39,7 @@
   </head>
   <body class="layout-fixed" style="background-color: #302D2E;">
     <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4 layout-fixed" style="background-color: #4E4E4E;">
+<aside class="main-sidebar sidebar-dark-primary elevation-4 " style="background-color: #4E4E4E;">
   <!-- Brand Logo -->
   
   <a href="index.html" class="brand-link logo-switch mt-5" stye="color: #4e4e4e;">
@@ -175,6 +176,7 @@
   </ul>
 </nav>
 <!-- /.navbar -->
+
  <div id="main" style="background-color: #302D2E;" >
 
  </div>
@@ -182,35 +184,11 @@
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
-    <script src="assets/script.js"></script>
+    <script src="assets/scriptd.js"></script>
     <script >
       function includeHTML(file) {
-        
-        var  i, elmnt, file, xhttp;
-        /* Loop through a collection of all HTML elements: */
-        elmnt= document.getElementById("main");
-        
-          /*search for elements with a certain atrribute:*/
-          
-          
-          if (file) {
-            /* Make an HTTP request using the attribute value as the file name: */
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-              if (this.readyState == 4) {
-                if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-                /* Remove the attribute, and call this function once more: */
-               
-                includeHTML();
-              }
-            }
-            xhttp.open("GET", file, true);
-            xhttp.send();
-            /* Exit the function: */
-            return;
-          
-        }
+        $('#main').empty();
+        $("#main").load(file)
       }
       $('.arrow').click(function(){
         let element = $('#arrow');
