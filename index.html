@@ -17,6 +17,7 @@
       width:70%;
       
     }
+    
     .nav-link {
       color: white!important;
       padding-right: 1rem!important;
@@ -35,7 +36,7 @@
     <script src="assets/font.js"></script>
 
   </head>
-  <body class="layout-fixed">
+  <body class="layout-fixed" style="background-color: #302D2E;">
     <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4 layout-fixed" style="background-color: #4E4E4E;">
   <!-- Brand Logo -->
@@ -109,11 +110,9 @@
                 </a>
 
               </li>
-           
-    
+
               <li class="nav-item mx-auto">
-                
-    
+
                 <a href="" class="nav-link">
                   <i class="nav-icon fas fa-sign-out-alt"></i>
                   <p>
@@ -124,10 +123,7 @@
     
                 
               </li>
-           
-    
-             
-           
+
           </ul>
         </nav>
       </div></div></div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="height: 32.9353%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div></div>
@@ -138,7 +134,7 @@
 </aside>
 <!-- Navbar -->
 <div>
-<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #302D2E;height:100px">
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #302D2E;height:100px;border: none!important;">
   <!-- Left navbar links -->
   <ul class="navbar-nav">
     
@@ -179,7 +175,7 @@
   </ul>
 </nav>
 <!-- /.navbar -->
- <div id="main" >
+ <div id="main" style="background-color: #302D2E;" >
 
  </div>
   </div>
@@ -216,7 +212,12 @@
           
         }
       }
-    
+      $('.arrow').click(function(){
+        let element = $('#arrow');
+        console.log('yea');
+        (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
+        
+      })
       
     </script>
   </body>

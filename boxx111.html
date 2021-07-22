@@ -20,21 +20,54 @@
     .nav-link {
       color: white!important;
     }
+   
+
+    /* Dashboard styles */
+    .arrow {
+      background-color: #4e4e4e;
+      border: 1px solid #4e4e4e;
+      border-radius: 20px;
+      width:50px;
+    }
     </style>
     <script src="assets/font.js"></script>
 
   </head>
-  <body class="layout-fixed" style="background-color: black;">
+  <body  style=""></body>
     <!-- Main Sidebar Container -->
-
-    <div class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars" style="color:black;"></i></a>
-    </div>
   
+    <!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between" style="background-color: #302D2E;margin-left:0px;border: none!important;">
+  <!-- Left navbar links -->
+  
+  <div class="nav-item">
+    <a class="nav-link arrow d-flex align-items-center justify-content-center"  data-widget="pushmenu" href="#" role="button" onclick="var element = $('#arrow');
+    
+    (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
+  "
+  ><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
+  </div>
+ 
+  <div class="nav-item">
+    <a class="nav-link arrow"  data-widget="pushmenu" href="#" role="button"><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
+  </div>
+  <div class="nav-item">
+    <a class="nav-link arrow"  data-widget="pushmenu" href="#" role="button"><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
+  </div>
+</nav>
+<!-- /.navbar -->
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/script.js"></script>
-    
+    <script>
+      
+      $('.arrow').click(function(){
+        let element = $('#arrow');
+        
+        (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
+        
+      })
+    </script>
   </body>
 </html>
