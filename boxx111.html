@@ -14,22 +14,13 @@
       color: black!important;
     }
     
-    .nav-link {
-      color: grey;
-      width:100%; 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .nav-item {
-      width:50%;
-    }
+    
     .active {
       border: 3px solid white!important;
       border-radius: 19px;
       border-top-right-radius: 19px!important;
       border-top-left-radius: 19px!important;
-      background-color: transparent!important;
+      background-color: #565656!important;
       color:white!important;
     }
     /* Dashboard styles */
@@ -59,6 +50,49 @@
     }
     .fade {
       border:none!important;
+      background-color: transparent!important;
+    }
+    .card {
+      background-color: #4e4e4e;
+      color:white;
+      border-radius: 30px;
+      padding:10px;
+      box-shadow: #201f1f 0px 2px;
+      height: 100%;
+    }
+    .progressbar-column {
+      width:30px;
+      height:120px;
+      background-color: #565656;
+      border-radius: 50px;
+      margin:7px;
+    }
+    .progressCustom{
+      position: relative;
+      margin: 4px;
+      float:left;
+      text-align: center;
+      background-color: transparent!important;
+    }
+    .barOverflow{ /* Wraps the rotating .bar */
+      position: relative;
+      overflow: hidden; /* Comment this line to understand the trick */
+      width: 135px; height: 90px; /* Half circle (overflow) */
+      margin-bottom: -14px; /* bring the numbers up */
+    }
+    .bar{
+      position: absolute;
+      top: 0; left: 0;
+      width: 135px; height: 135px; /* full circle! */
+      border-radius: 50%;
+      box-sizing: border-box;
+      border: 10px solid grey;     /* half gray, */
+      border-bottom-color: #00CEAA;  /* half azure */
+      
+    }
+    .barLogo {
+      margin-top: -40px;
+      margin-left: -20px;
     }
     </style>
     <script src="assets/font.js"></script>
@@ -80,11 +114,11 @@
   </div>
   <div class="d-flex">
   <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hipoksja</button>
+    <li class="nav-item" style="width:50%" role="presentation">
+      <button class="nav-link active"style="width:148px" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hipoksja</button>
     </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hiperoksja</button>
+    <li class="nav-item" style="width:50%;"role="presentation">
+      <button class="nav-link" id="profile-tab" style="width: 148px;" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hiperoksja</button>
     </li>
     
   </ul>
@@ -92,7 +126,64 @@
 </nav>
 <div class="tab-content" id="myTabContent" style="background-color: #302D2E;">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">EWE</div>
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Awe</div>
+  
+  
+  
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="row" style="padding:20px;">
+      <div class="col-8">
+        <div class="card">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h3>O<span style="font-size: 15px;">2</span></h3>
+              <h1 id="procent"></h1>
+            </div>
+            <div class="arrowTop">
+              
+            </div>
+          </div>
+          
+          <div class="progressbar d-flex">
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="card">
+          <h4>Temp.</h4>
+          <h2 id="tempProcent">25°C</h2>
+          <div class="progressCustom mt-5 temp">
+            <div class="barOverflow">
+              <div class="bar"></div>
+            </div>
+            <img src="images/temperature.png" alt="" width="25" height="50" class="barLogo">
+            <span id="temp" style="display: none;">24</span>
+          </div>
+        </div>
+        
+       <div>
+        
+
+       </div>
+      </div>
+      <div class="col-2">
+        
+        <div class="card">
+          <h4>Humidity</h4>
+          <h2 id="humidityProcent">47 %</h2>
+          <div class="progressCustom mt-5 humidity">
+            <div class="barOverflow">
+              <div class="bar"></div>
+            </div>
+            <img src="images/humidity.png" alt="" width="40" height="50" class="barLogo">
+            <span id="humidity"style="display: none;">24</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
   
 </div>
 <!-- /.navbar -->
@@ -101,6 +192,60 @@
     <script src="assets/admin.min.js"></script>
     <script src="assets/scripte.js"></script>
     <script>
+      function setProgressBarValue(value){
+        $('#procent').text(parseInt(value)+' %')
+        $('.progressbar-column').css({"background-color":'#565656'})
+        let newValue = parseInt(value/5);
+        console.log(newValue)
+        for(let i = 0; i<newValue; i++){
+          $('#'+i).css({"background-color":"#00CEAA" })
+        }
+      }
+      
+      function setCircleProgressbar(progressbar){
+        
+  
+          var $bar = $(progressbar).find(".bar");
+          var $val = $(progressbar).find("span");
+          var perc = parseInt( $val.text(), 10);
+          if(parseInt($val.text())>13){
+            $bar.css({"border-right-color": '#00CEAA'})
+          }
+          if(parseInt($val.text())>=90){
+            $bar.css({"border-color":"#00CEAA"})
+          }
+          $({p:0}).animate({p:perc}, {
+            duration: 3000,
+            easing: "swing",
+            step: function(p) {
+              $bar.css({
+                transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                // 45 is to add the needed rotation to have the green borders at the bottom
+              });
+              $val.text(p|0);
+            }
+          });
+        
+      }
+      function setHumidity(val){
+        val = parseInt(val);
+        $('#humidityProcent').text(val+'%');
+        $('#humidity').text(val);
+        setCircleProgressbar(".humidity");
+      }
+      function setTemp(val){
+        val = parseInt(val);
+        $('#tempProcent').text(val+"°C");
+        $('#temp').text(val);
+        setCircleProgressbar(".temp");
+      }
+      setHumidity(40);
+      setTemp(23);
+      for(var i=0;i<20;i++){
+        
+        $('.progressbar').append(' <div class="progressbar-column" id="'+i+'"></div>')
+      }
+      setProgressBarValue(47);
       $('.arrow').click(function(){
         let element = $('#arrow');
         
@@ -115,6 +260,7 @@
         $('#main').css({"margin-left":"250px"});
       }
       })
+      
     </script>
   </body>
 </html>
