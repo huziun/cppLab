@@ -180,34 +180,44 @@
 <!-- /.navbar -->
 
  <div id="main" style="background-color: #302D2E;" >
-
+  
  </div>
-  </div>
+  
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/scriptd.js"></script>
     <script >
+      var global = 1;
       function includeHTML(file) {
         $('#main').empty();
+
         $("#main").load(file)
+        if(global>1){
+          $('#main').load(file);
+        }
+        global++;
       }
       $('.arrow').click(function(){
         let element = $('#arrow');
         
         (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
         let parentLayout = $('.layout-fixed');
-        if(parentLayout.attr('class')=='layout-fixed'){
-          parentLayout.attr('class','layout-fixed sidebar-collapse')
-          $('#main').css({"margin-left":"0px"});
-          $('.bar').css({'left':'15px'})
-        }
-       else{
-        parentLayout.attr('class', 'layout-fixed');
-        $('#main').css({"margin-left":"250px"});
         
-        $('.bar').css({'left':'0'})
-      }
+          if(parentLayout.attr('class')=='layout-fixed'){
+            parentLayout.attr('class','layout-fixed sidebar-collapse')
+            $('#main').css({"margin-left":"0px"});
+            $('.bar').css({'left':'15px'})
+          }
+         else{
+          parentLayout.attr('class', 'layout-fixed');
+          $('#main').css({"margin-left":"250px"});
+          
+          $('.bar').css({'left':'0'})
+        }
+
+       
+        
       })
     </script>
   </body>
