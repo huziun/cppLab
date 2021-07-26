@@ -446,7 +446,7 @@
         const alt_ground = alt-8;
       
         let position = 200-(((value*100/(8000))-100*(parseInt(value/8000)))*200/100)+10
-        console.log(position)
+        $('#altitude-v').text(parseInt(value) +" m")
         $('#alt-pointer').css({'top':position+'px'})
         for(let i=alt; i >= alt_ground; i--){
           $('.AltScale').append('<div class="d-flex justify-content-end" style="height:25px"><div class="altitudeScale" id="alt'+i+'">'+i*1000+' m'+'</div><hr class="alt-hr"></div>')
