@@ -77,13 +77,20 @@
     .barOverflow{ /* Wraps the rotating .bar */
       position: relative;
       overflow: hidden; /* Comment this line to understand the trick */
-      width: 135px; height: 90px; /* Half circle (overflow) */
+      width: 140px; height: 90px; /* Half circle (overflow) */
       margin-bottom: -14px; /* bring the numbers up */
+      display: flex;
+      justify-content:center;
+
+
+    }
+    .row {
+      padding: 20px;
     }
     .bar{
       position: absolute;
       top: 0; left: 0;
-      width: 135px; height: 135px; /* full circle! */
+      width: 120px; height: 120px; /* full circle! */
       border-radius: 50%;
       box-sizing: border-box;
       border: 10px solid grey;     /* half gray, */
@@ -92,7 +99,71 @@
     }
     .barLogo {
       margin-top: -40px;
-      margin-left: -20px;
+      margin-left: -5%;
+    }
+    
+    .progress {
+      background: #565656;
+      justify-content: flex-start;
+      border-radius: 100px;
+      align-items: center;
+      position: relative;
+      
+      display: flex;
+      height: 40px;
+      width: 60%;
+    }
+
+    .progress-value,.progress-value-o2 {
+      
+      
+      border-radius: 100px;
+      background: #00CEAA;
+      height: 100%;
+      width: 10%;
+    }
+
+    @keyframes load {
+      0% { width: 0; }
+      100% { width: 15%; }
+    }
+    .arrow-status, .arrow-status-o2 {
+      display: flex;
+      justify-content: center;
+      border: 2px solid white;
+      border-radius: 50px;
+      width:7%;
+      height: 40px;
+      margin-left: 10px;
+      align-items: center;
+    }
+    #altitude-v {
+      font-weight: 700;
+    }
+   
+    .altitudebar {
+      width:55%;
+    }
+    .altitudeScale {
+      color:grey;
+      display: flex;
+      background-color: transparent!important;
+      width: 70px;
+    }
+    .alt-hr {
+      width: 75%;
+     margin-left: 20px;
+    }
+    .AltScale{
+      width:100%;
+    }
+    #alt-pointer {
+      height: 3px;
+      width: 40%;
+      position: absolute;
+      
+      background-color: #00CEAA;
+      
     }
     </style>
     <script src="assets/font.js"></script>
@@ -124,11 +195,102 @@
   </ul>
   </div>
 </nav>
+<!-- Tab panel 1-->
 <div class="tab-content" id="myTabContent" style="background-color: #302D2E;">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">EWE</div>
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="row" style="padding:20px;">
+      <div class="col-8">
+        <div class="card">
+          <div class="d-flex justify-content-start">
+            <div class="">
+              <h3>Altitude</h3>
+              <h1 id="altitude-v" class="display-1" >2500 m</h1>
+              <img src="images/altitude.png" alt="" width='75' height="50" class="mt-5">
+            </div>
+            <div class="altitudebar d-flex">
+              <div class="AltScale">
+                  <div class="d-flex justify-content-end"><hr id="alt-pointer"></div>
+                
+              </div>
+              
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="card">
+          <h4>Temp.</h4>
+          <h2 id="tempProcent">25°C</h2>
+          <div class="progressCustom mt-5 temp">
+            <div class="barOverflow">
+              <div class="bar"></div>
+            </div>
+            <img src="images/temperature.png" alt="" width="25" height="50" class="barLogo">
+            <span id="temp" style="display: none;">24</span>
+          </div>
+        </div>
+        
+       <div>
+        
+
+       </div>
+      </div>
+      <div class="col-2">
+        
+        <div class="card">
+          <h4>Humidity</h4>
+          <h2 id="humidityProcent">47 %</h2>
+          <div class="progressCustom mt-5 humidity">
+            <div class="barOverflow">
+              <div class="bar"></div>
+            </div>
+            <img src="images/humidity.png" alt="" width="40" height="50" class="barLogo">
+            <span id="humidity"style="display: none;">24</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card " style="height: auto;">
+          <h3 class="mt-3">Parameters</h3>
+          <hr class="" style="background-color: #302D2E; height:3px">
+          <div class="co-params d-flex justify-content-between">
+            <h1 class="display-4" style="font-weight: 500;">CO<span style="font-size: 20px;">2</span></h1>
+            <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
+              <div class="progress">
+                <div class="progress-value"></div>
+              </div>
+              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1" id="co2_arrow"></i></div>
+            </div>
+
+          </div>
+          <hr class="" style="background-color: #302D2E; height:3px">
+          <div class="co-params d-flex justify-content-between">
+            
+            <h1 class="display-4" style="font-weight: 500;">O<span style="font-size: 20px;">2</span></h1>
+            <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
+              <div class="progress" style="width: 58%;">
+                <div class="progress-value-o2"></div>
+              </div>
+              <div class="arrow-status-o2"><span class="status-procent-o2">10</span>%<i class="fas fa-arrow-up ml-1" id="o2_arrow"></i></div>
+            </div>
+           
+            
+            
+          </div>
+
+        </div>
+        
+      </div>
+     
+    </div>
+  </div>
   
-  
-  
+  <!-- END Tab panel 1-->
+  <!-- Tab panel 2-->
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <div class="row" style="padding:20px;">
       <div class="col-8">
@@ -181,9 +343,33 @@
         </div>
       </div>
     </div>
-    
+    <div class="row">
+      <div class="col-12">
+        <div class="card mt-3" style="height: auto;">
+          <h3 class="mt-3">Parameters</h3>
+          <hr class="mt-5" style="background-color: #302D2E; height:3px">
+          <div class="co-params d-flex justify-content-between">
+            <h1 class="display-4" style="font-weight: 500;">CO<span style="font-size: 20px;">2</span></h1>
+            <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
+              <div class="progress">
+                <div class="progress-value"></div>
+              </div>
+              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1" id="co2_arrow"></i></div>
+            </div>
+           
+            
+            
+          </div>
+
+        </div>
+        
+      </div>
+     
+    </div>
+   
 
   </div>
+  <!-- END Tab panel 2-->
   
 </div>
 <!-- /.navbar -->
@@ -239,6 +425,69 @@
         $('#temp').text(val);
         setCircleProgressbar(".temp");
       }
+      function setCO2(value){
+        let prev_val = parseInt($('.status-procent').text());
+        (prev_val > value) ? $('#co2_arrow').attr('class','fas fa-arrow-down ml-1') : $('#co2_arrow').attr('class','fas fa-arrow-up ml-1')
+        $('.status-procent').text(parseInt(value));
+        $('.progress-value').css({"width":value+"%"})
+        
+      }
+      function setO2(value){
+        let prev_val = parseInt($('.status-procent-o2').text());
+        (prev_val > value) ? $('#o2_arrow').attr('class','fas fa-arrow-down ml-1') : $('#o2_arrow').attr('class','fas fa-arrow-up ml-1')
+        $('.status-procent-o2').text(parseInt(value));
+        $('.progress-value-o2').css({"width":value+"%"})
+        
+      }
+      function setAltitude(value){
+        $('.AltScale').empty();
+        $('.AltScale').append('  <div class="d-flex justify-content-end"><hr id="alt-pointer"></div>');
+        const alt = 8*(parseInt(value/8000)+1);
+        const alt_ground = alt-8;
+      
+        let position = 200-(((value*100/(8000))-100*(parseInt(value/8000)))*200/100)+10
+        console.log(position)
+        $('#alt-pointer').css({'top':position+'px'})
+        for(let i=alt; i >= alt_ground; i--){
+          $('.AltScale').append('<div class="d-flex justify-content-end" style="height:25px"><div class="altitudeScale" id="alt'+i+'">'+i*1000+' m'+'</div><hr class="alt-hr"></div>')
+        }
+        
+      }
+      setAltitude(2000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       setHumidity(40);
       setTemp(23);
       for(var i=0;i<20;i++){
@@ -254,10 +503,13 @@
         if(parentLayout.attr('class')=='layout-fixed'){
           parentLayout.attr('class','layout-fixed sidebar-collapse')
           $('#main').css({"margin-left":"0px"});
+          $('.bar').css({'left':'15px'})
         }
        else{
         parentLayout.attr('class', 'layout-fixed');
         $('#main').css({"margin-left":"250px"});
+        
+        $('.bar').css({'left':'0'})
       }
       })
       

@@ -194,11 +194,21 @@
       }
       $('.arrow').click(function(){
         let element = $('#arrow');
-        console.log('yea');
-        (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
         
+        (element.attr('class')=='fas fa-arrow-left') ? element.attr('class','fas fa-arrow-right'):element.attr('class','fas fa-arrow-left');
+        let parentLayout = $('.layout-fixed');
+        if(parentLayout.attr('class')=='layout-fixed'){
+          parentLayout.attr('class','layout-fixed sidebar-collapse')
+          $('#main').css({"margin-left":"0px"});
+          $('.bar').css({'left':'15px'})
+        }
+       else{
+        parentLayout.attr('class', 'layout-fixed');
+        $('#main').css({"margin-left":"250px"});
+        
+        $('.bar').css({'left':'0'})
+      }
       })
-      
     </script>
   </body>
 </html>
