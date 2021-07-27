@@ -105,9 +105,9 @@
         );
         subscribeEntities(connection, (entities) =>
           
-          window.entity = entities
+          console.log(entities)
         );
-        setTimeout(function(){console.log(entity)},100)
+        setTimeout(function(){console.log(window.entity)},100)
         
         callService(connection,"climate",'set_temperature',{
           entity_id: "climate.study",
@@ -122,7 +122,7 @@
         window.auth = auth;
         window.connection = connection;
         getUser(connection).then((user) => {
-          console.log("Logged in as", user);
+          console.log("Logged in as", user['name']);
           window.user = user;
         });
       })();

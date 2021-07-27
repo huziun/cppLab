@@ -142,7 +142,7 @@
   <ul class="navbar-nav">
     
     <li class="nav-item w-100">
-      <a href="#" class="nav-link nav-link-r d-flex align-items-center"><i class="far fa-user-circle"></i><span class="mb-1">&nbsp;John Doe</span></a>
+      <a href="#" class="nav-link nav-link-r d-flex align-items-center"><i class="far fa-user-circle"></i><span class="mb-1" id="userName">&nbsp;John Doe</span></a>
     </li>
     
   </ul>
@@ -153,15 +153,15 @@
   <ul class="navbar-nav ml-auto" style="margin-right: 20px;">
     <!-- Messages Dropdown Menu -->
     <li class="nav-item">
-      <a class="nav-link d-flex w-100px nav-link-r" href="#" >
+      <a class="nav-link d-flex w-100px nav-link-r" href="#" id="parentDate" style="width: 125px!important;">
         Fri 9 Apr
       </a>
       
     </li>
     <li class="nav-item">
       <a class="nav-link d-flex w-100px align-items-center nav-link-r" href="#" >
-        <i class="far fa-clock"></i>
-        &nbsp;13:40
+        <i class="far fa-clock d-flex" id="parentTime"></i>
+        
       </a>
       
     </li>
@@ -241,26 +241,41 @@
           window.user = user;
         });
       })();
-      
+      class ParentLayout {
+        setUser(userName){
+          $('#userName').text(" "+userName);
+        }
+        setTime(time){ //stirng
+          $('#parentTime').text(" "+time);
+        }
+        setDate(date){ //string Fri 9 Apr
+          $('#parentDate').text(" "+date);
+        }
+        render(entities){
+          this.setTime(entities["sensor.time"]['state'])
+          this.setDate(entities['sensor.date']['state'])
+        }
+      }
+      window.parentLayout = new ParentLayout;
       window.renderBox1 = function(){
         let object = window.content.factory(window.entityList);
         object.render();
         
       }      
       function renderEntities(connection, entities) {
-        const root = document.querySelector("tbody");
-      
+        
+        window.parentLayout.render(entities)
+        getUser(connection).then((user) => {
+          window.parentLayout.setUser(user['name']);
+        });
         setTimeout(function(){renderBox1();},50)
-        Object.keys(entities)
-          .sort()
-          .forEach((entId) => {
-           
-          });
+        
       }
      
     </script>
     
     <script >
+      
       class Box1 {
         constructor(entity){
           this.entities = entity
