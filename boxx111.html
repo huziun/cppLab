@@ -263,7 +263,7 @@
               <div class="progress">
                 <div class="progress-value"></div>
               </div>
-              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1" id="co2_arrow"></i></div>
+              <div class="arrow-status"><span class="status-procent" id="status-procent">10</span>%<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
             </div>
 
           </div>
@@ -354,7 +354,7 @@
               <div class="progress">
                 <div class="progress-value"></div>
               </div>
-              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1" id="co2_arrow"></i></div>
+              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
             </div>
            
             
@@ -429,8 +429,9 @@
         setCircleProgressbar(".temp",val);
       }
       function setCO2(value){
-        let prev_val = parseInt($('.status-procent').text());
-        (prev_val > value) ? $('#co2_arrow').attr('class','fas fa-arrow-down ml-1') : $('#co2_arrow').attr('class','fas fa-arrow-up ml-1')
+        let prev_val = parseInt($('#status-procent').text());
+        console.log(prev_val);
+        (prev_val > value) ? $('.co2_arrow').attr('class','fas fa-arrow-down ml-1 co2_arrow') : $('.co2_arrow').attr('class','fas fa-arrow-up ml-1 co2_arrow')
         $('.status-procent').text(parseInt(value));
         $('.progress-value').css({"width":value+"%"})
         

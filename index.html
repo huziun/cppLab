@@ -243,12 +243,14 @@
       })();
       
       window.renderBox1 = function(){
-        setTemp(window.entityList["climate.study"]['attributes']["temperature"])
+        let object = window.content.factory(window.entityList);
+        object.render();
+        
       }      
       function renderEntities(connection, entities) {
         const root = document.querySelector("tbody");
       
-        setTimeout(function(){renderBox1();},100)
+        setTimeout(function(){renderBox1();},50)
         Object.keys(entities)
           .sort()
           .forEach((entId) => {
@@ -259,10 +261,43 @@
     </script>
     
     <script >
-      
+      class Box1 {
+        constructor(entity){
+          this.entities = entity
+        }
+        render(){
+          setTemp(this.entities["climate.study"]['attributes']["temperature"])
+        }
+      }
+      class Box2 {
+        constructor(entity){
+          this.entities = entity
+        }
+        render(){
+          setTemp(this.entities["climate.study"]['attributes']["temperature"])
+        }
+      }
+      class Box1Factory {
+        factory(entity){
+          return new Box1(entity);
+        }
+      }
+      class Box2Factory {
+        factory(entity){
+          return new Box2(entity)
+        }
+      }
       var global = 1;
       function includeHTML(file) {
-        window.content = file
+        switch(file){
+          case "boxx111.html":
+            window.content = new Box1Factory;
+          case "box22.html":
+           window.content = new Box2Factory;
+          default:
+            break;
+          }
+        
         $('#main').empty();
         
         $("#main").load(file)
@@ -270,10 +305,10 @@
           $('#main').load(file);
         }
         setTimeout(function(){
-          if(file=="boxx111.html"){
-            renderBox1();
-          }
-        },150)
+         
+          renderBox1();
+          
+        },50)
        
         global++;
       }
