@@ -187,15 +187,94 @@
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/scriptd.js"></script>
+    <script type="module">
+      import {
+        getAuth,
+        getUser,
+        callService,
+        subscribeServices,
+        createConnection,
+        subscribeEntities,
+        ERR_HASS_HOST_REQUIRED,
+      } from "./dist/index.js";
+      var logined;
+      (async () => {
+       
+        let auth;
+        logined = auth;
+        try {
+          auth = await getAuth();
+        } catch (err) {
+          if (err === ERR_HASS_HOST_REQUIRED) {
+            const hassUrl ='http://192.168.1.15:8123';
+            if (!hassUrl) return;
+            auth = await getAuth({ hassUrl });
+          } else {
+            alert(`Unknown error: ${err}`);
+            return;
+          }
+        }
+        
+        const connection = await createConnection({ auth });
+        subscribeEntities(connection, (entities) =>
+         
+          renderEntities(connection, entities)
+        );
+        subscribeEntities(connection, (entities) =>
+         
+          window.entityList = entities
+        );
+        callService(connection,"climate",'set_temperature',{
+          entity_id: "climate.study",
+          temperature: 50
+        }).then(()=>{console.log("called")});
+        // Clear url if we have been able to establish a connection
+        if (location.search.includes("auth_callback=1")) {
+          history.replaceState(null, "", location.pathname);
+        }
+        subscribeServices(connection, (services) => console.log("New services!", services))
+        // To play from the console
+        window.auth = auth;
+        window.connection = connection;
+        getUser(connection).then((user) => {
+          console.log("Logged in as", user);
+          window.user = user;
+        });
+      })();
+      
+      window.renderBox1 = function(){
+        setTemp(window.entityList["climate.study"]['attributes']["temperature"])
+      }      
+      function renderEntities(connection, entities) {
+        const root = document.querySelector("tbody");
+      
+        setTimeout(function(){renderBox1();},100)
+        Object.keys(entities)
+          .sort()
+          .forEach((entId) => {
+           
+          });
+      }
+     
+    </script>
+    
     <script >
+      
       var global = 1;
       function includeHTML(file) {
+        window.content = file
         $('#main').empty();
-
+        
         $("#main").load(file)
         if(global>1){
           $('#main').load(file);
         }
+        setTimeout(function(){
+          if(file=="boxx111.html"){
+            renderBox1();
+          }
+        },150)
+       
         global++;
       }
       $('.arrow').click(function(){
@@ -220,5 +299,6 @@
         
       })
     </script>
+    
   </body>
 </html>

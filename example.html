@@ -83,6 +83,7 @@
       } from "./dist/index.js";
 
       (async () => {
+       
         let auth;
         try {
           auth = await getAuth();
@@ -103,18 +104,20 @@
           renderEntities(connection, entities)
         );
         subscribeEntities(connection, (entities) =>
-         
-          console.log(entities)
+          
+          window.entity = entities
         );
+        setTimeout(function(){console.log(entity)},100)
+        
         callService(connection,"climate",'set_temperature',{
           entity_id: "climate.study",
           temperature: 50
-        })
+        }).then(()=>{console.log("called")});
         // Clear url if we have been able to establish a connection
         if (location.search.includes("auth_callback=1")) {
           history.replaceState(null, "", location.pathname);
         }
-
+        subscribeServices(connection, (services) => console.log("New services!", services))
         // To play from the console
         window.auth = auth;
         window.connection = connection;
@@ -124,6 +127,7 @@
         });
       })();
       
+            
       function renderEntities(connection, entities) {
         const root = document.querySelector("tbody");
         while (root.lastChild) root.removeChild(root.lastChild);
@@ -140,8 +144,7 @@
             const tdState = document.createElement("td");
             const text = document.createTextNode(entities[entId].state);
             tdState.appendChild(text);
-            subscribeServices(connection, (services) => console.log("New services!", services))
-            
+           
             if (
               ["switch", "light", "input_boolean"].includes(
                 entId.split(".", 1)[0]

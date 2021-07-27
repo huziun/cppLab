@@ -458,40 +458,6 @@
         
       }
       setAltitude(2000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       setHumidity(40);
       setTemp(23);
       for(var i=0;i<20;i++){
@@ -516,7 +482,66 @@
         $('.bar').css({'left':'0'})
       }
       })
+    
+    </script>
+     <script type="module">
       
+      import {
+        getAuth,
+        getUser,
+        callService,
+        subscribeServices,
+        createConnection,
+        subscribeEntities,
+        ERR_HASS_HOST_REQUIRED,
+      } from "./dist/index.js";
+
+      (async () => {
+       
+        let auth;
+        try {
+          auth = await getAuth();
+        } catch (err) {
+          
+        }
+        
+        const connection = await createConnection({ auth });
+        subscribeEntities(connection, (entities) =>
+         
+          renderEntities(connection, entities)
+        );
+        subscribeEntities(connection, (entities) =>
+         
+          console.log(entities)
+        );
+        callService(connection,"climate",'set_temperature',{
+          entity_id: "climate.study",
+          temperature: 50
+        }).then(()=>{console.log("called")});
+        // Clear url if we have been able to establish a connection
+        if (location.search.includes("auth_callback=1")) {
+          history.replaceState(null, "", location.pathname);
+        }
+        subscribeServices(connection, (services) => console.log("New services!", services))
+        // To play from the console
+        window.auth = auth;
+        window.connection = connection;
+        getUser(connection).then((user) => {
+          console.log("Logged in as", user);
+          window.user = user;
+        });
+      })();
+      
+            
+      function renderEntities(connection, entities) {
+        const root = document.querySelector("tbody");
+        
+        Object.keys(entities)
+          .sort()
+          .forEach((entId) => {
+           
+          });
+      }
     </script>
   </body>
 </html>
