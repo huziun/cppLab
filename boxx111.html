@@ -99,7 +99,7 @@
     }
     .barLogo {
       margin-top: -40px;
-      margin-left: -5%;
+      margin-left: 3%;
     }
     
     .progress {
@@ -132,7 +132,7 @@
       justify-content: center;
       border: 2px solid white;
       border-radius: 50px;
-      width:7%;
+      width:10%;
       height: 40px;
       margin-left: 10px;
       align-items: center;
@@ -153,6 +153,7 @@
     .alt-hr {
       width: 75%;
      margin-left: 20px;
+
     }
     .AltScale{
       width:100%;
@@ -161,13 +162,18 @@
       height: 3px;
       width: 40%;
       position: absolute;
+      opacity: 1;
+      background-color: white;
       
-      background-color: #00CEAA;
-      
+    }
+    @media screen and (max-width: 400px) {
+      body {
+        background-color: lightgreen;
+      }
     }
     </style>
     <script src="assets/font.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body   ></body>
     <!-- Main Sidebar Container -->
@@ -186,10 +192,10 @@
   <div class="d-flex">
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" style="width:50%" role="presentation">
-      <button class="nav-link active"style="width:148px" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hipoksja</button>
+      <button class="nav-link active d-flex justify-content-center align-items-center"style="width:148px" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hipoksja</button>
     </li>
     <li class="nav-item" style="width:50%;"role="presentation">
-      <button class="nav-link" id="profile-tab" style="width: 148px;" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hiperoksja</button>
+      <button class="nav-link d-flex justify-content-center align-items-center" id="profile-tab" style="width: 148px;" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hiperoksja</button>
     </li>
     
   </ul>
@@ -201,7 +207,7 @@
     <div class="row" style="padding:20px;">
       <div class="col-8">
         <div class="card">
-          <div class="d-flex justify-content-start">
+          <div class="d-flex justify-content-between">
             <div class="">
               <h3>Altitude</h3>
               <h1 id="altitude-v" class="display-1" >2500 m</h1>
@@ -258,17 +264,6 @@
           <h3 class="mt-3">Parameters</h3>
           <hr class="" style="background-color: #302D2E; height:3px">
           <div class="co-params d-flex justify-content-between">
-            <h1 class="display-4" style="font-weight: 500;">CO<span style="font-size: 20px;">2</span></h1>
-            <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
-              <div class="progress">
-                <div class="progress-value"></div>
-              </div>
-              <div class="arrow-status"><span class="status-procent" id="status-procent">10</span>%<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
-            </div>
-
-          </div>
-          <hr class="" style="background-color: #302D2E; height:3px">
-          <div class="co-params d-flex justify-content-between">
             
             <h1 class="display-4" style="font-weight: 500;">O<span style="font-size: 20px;">2</span></h1>
             <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
@@ -280,6 +275,18 @@
            
             
             
+          </div>
+          <hr class="" style="background-color: #302D2E; height:3px">
+          
+          <div class="co-params d-flex justify-content-between">
+            <h1 class="display-4" style="font-weight: 500;">CO<span style="font-size: 20px;">2</span></h1>
+            <div style="width: 100%;" class="d-flex justify-content-end align-items-center">
+              <div class="progress">
+                <div class="progress-value"></div>
+              </div>
+              <div class="arrow-status"><span class="status-procent" id="status-procent">10</span>&nbsp;ppm<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
+            </div>
+
           </div>
 
         </div>
@@ -354,7 +361,7 @@
               <div class="progress">
                 <div class="progress-value"></div>
               </div>
-              <div class="arrow-status"><span class="status-procent">10</span>%<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
+              <div class="arrow-status"><span class="status-procent">10</span>&nbsp;ppm<i class="fas fa-arrow-up ml-1 co2_arrow"></i></div>
             </div>
            
             
@@ -475,74 +482,17 @@
           parentLayout.attr('class','layout-fixed sidebar-collapse')
           $('#main').css({"margin-left":"0px"});
           $('.bar').css({'left':'15px'})
+          $('.barLogo').css({'margin-left':"-3%"})
         }
        else{
         parentLayout.attr('class', 'layout-fixed');
         $('#main').css({"margin-left":"250px"});
-        
+        $('.barLogo').css({'margin-left':"3%"})
         $('.bar').css({'left':'0'})
       }
       })
     
     </script>
-     <script type="module">
-      
-      import {
-        getAuth,
-        getUser,
-        callService,
-        subscribeServices,
-        createConnection,
-        subscribeEntities,
-        ERR_HASS_HOST_REQUIRED,
-      } from "./dist/index.js";
-
-      (async () => {
-       
-        let auth;
-        try {
-          auth = await getAuth();
-        } catch (err) {
-          
-        }
-        
-        const connection = await createConnection({ auth });
-        subscribeEntities(connection, (entities) =>
-         
-          renderEntities(connection, entities)
-        );
-        subscribeEntities(connection, (entities) =>
-         
-          console.log(entities)
-        );
-        callService(connection,"climate",'set_temperature',{
-          entity_id: "climate.study",
-          temperature: 50
-        }).then(()=>{console.log("called")});
-        // Clear url if we have been able to establish a connection
-        if (location.search.includes("auth_callback=1")) {
-          history.replaceState(null, "", location.pathname);
-        }
-        subscribeServices(connection, (services) => console.log("New services!", services))
-        // To play from the console
-        window.auth = auth;
-        window.connection = connection;
-        getUser(connection).then((user) => {
-          console.log("Logged in as", user);
-          window.user = user;
-        });
-      })();
-      
-            
-      function renderEntities(connection, entities) {
-        const root = document.querySelector("tbody");
-        
-        Object.keys(entities)
-          .sort()
-          .forEach((entId) => {
-           
-          });
-      }
-    </script>
+     
   </body>
 </html>
