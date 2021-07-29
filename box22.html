@@ -25,7 +25,7 @@
     }
     /* Dashboard styles */
     .arrow {
-      background-color: #4e4e4e;
+      background-color: #302D2E;
       border: 1px solid #4e4e4e;
       border-radius: 20px;
       width:50px;
@@ -47,6 +47,7 @@
       border: 2px solid grey;
       border-radius: 50px;
       width:300px;
+      background-color: #302D2E;
     }
     .fade {
       border:none!important;
@@ -166,6 +167,9 @@
       background-color: white;
       
     }
+    .card{
+      background-color: #302D2E!important;
+    }
     @media screen and (max-width: 400px) {
       body {
         background-color: lightgreen;
@@ -173,17 +177,17 @@
     }
     </style>
     <script src="assets/font.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
   </head>
   <body   ></body>
     <!-- Main Sidebar Container -->
   
     <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between" style="background-color: #302D2E;margin-left:0px;border: none!important;">
+<nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-between" style="background-color: #1C1D1C;margin-left:0px;border: none!important;">
   <!-- Left navbar links -->
   
   <div class="nav-item"style="width:100px">
-    <a class="nav-link arrow d-flex align-items-center justify-content-center"  data-widget="pushmenu" href="#" role="button" 
+    <a class="nav-link arrow d-flex align-items-center justify-content-center"  onclick="includeHTML('parent');" 
   ><i class="fas fa-arrow-left" style="color:white;" id="arrow" ></i></a>
   </div>
   <div class="nameBox text-center align-items-center">
@@ -202,7 +206,7 @@
   </div>
 </nav>
 <!-- Tab panel 1-->
-<div class="tab-content" id="myTabContent" style="background-color: #302D2E;">
+<div class="tab-content" id="myTabContent" style="background-color: #1C1D1C;">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <div class="row" style="padding:20px;">
       <div class="col-8">
@@ -211,7 +215,7 @@
             <div class="">
               <h3>Altitude</h3>
               <h1 id="altitude-v" class="display-1" >2500 m</h1>
-              <img src="images/altitude.png" alt="" width='75' height="50" class="mt-5">
+              <img src="images/altitude2.png" alt="" width='75' height="50" class="mt-5">
             </div>
             <div class="altitudebar d-flex">
               <div class="AltScale">
@@ -233,7 +237,7 @@
             <div class="barOverflow">
               <div class="bar"></div>
             </div>
-            <img src="images/temperature.png" alt="" width="25" height="50" class="barLogo">
+            <img src="images/temperature2.png" alt="" width="25" height="50" class="barLogo">
             <span id="temp2" style="display: none;"></span>
           </div>
         </div>
@@ -252,7 +256,7 @@
             <div class="barOverflow">
               <div class="bar"></div>
             </div>
-            <img src="images/humidity.png" alt="" width="40" height="50" class="barLogo">
+            <img src="images/humidity2.png" alt="" width="40" height="50" class="barLogo">
             <span id="humidity2"style="display: none;"></span>
           </div>
         </div>
@@ -325,7 +329,7 @@
             <div class="barOverflow">
               <div class="bar"></div>
             </div>
-            <img src="images/temperature.png" alt="" width="25" height="50" class="barLogo">
+            <img src="images/temperature2.png" alt="" width="25" height="50" class="barLogo">
             <span id="temp2" style="display: none;">24</span>
           </div>
         </div>
@@ -344,7 +348,7 @@
             <div class="barOverflow">
               <div class="bar"></div>
             </div>
-            <img src="images/humidity.png" alt="" width="40" height="50" class="barLogo">
+            <img src="images/humidity2.png" alt="" width="40" height="50" class="barLogo">
             <span id="humidity2"style="display: none;">24</span>
           </div>
         </div>
