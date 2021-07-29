@@ -808,7 +808,7 @@
       function setProgressBarValue(value){
         $('#procent').text(parseInt(value)+' %')
         $('.progressbar-column').css({"background-color":'#565656'})
-        let newValue = parseInt(value/5);
+        let newValue = parseInt(value/7);
         console.log(newValue)
         for(let i = 0; i<newValue; i++){
           $('#'+i).css({"background-color":"#00CEAA" })
@@ -916,7 +916,7 @@
         function setProgressBarValueBox2(value){
           $('#procentBox2').text(parseInt(value)+' %')
           $('.progressbar-columnBox2').css({"background-color":'#565656'})
-          let newValue = parseInt(value/5);
+          let newValue = parseInt(value/7);
         
           for(let i = 0; i<newValue; i++){
             $('#box2'+i).css({"background-color":"#86D4F2" })
