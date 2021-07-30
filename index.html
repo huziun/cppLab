@@ -272,12 +272,12 @@
         render(entities){
           this.setTime(entities["sensor.time"]['state'])
           this.setDate(entities['sensor.date']['state'])
-          console.log(this.renderDefault,this.Freeze)
+        
           if(this.renderDefault && !this.Freeze){
             //render box 1 and 2
-            console.log("try")
+          
             $('#main').empty();
-            console.log("try")
+           
             $('#main').load('splitboxes.html')
             this.Freeze = true;
             this.renderDefault=false;
@@ -289,7 +289,7 @@
       }
       window.parentLayout = new ParentLayout;
       window.renderBox1 = function(){
-        console.log(window.content)
+      
         if(window.content=='parent'){
           window.parentLayout.setRenderDefault(true);
           window.parentLayout.render(window.entityList);
@@ -302,9 +302,9 @@
         }
       }      
       function renderEntities(connection, entities) {
-        console.log(window.content);
+    
         (window.content == 'parent' || window.content == undefined) ? window.parentLayout.setRenderDefault(true) : window.parentLayout.setRenderDefault(false) 
-        console.log(window.content)
+    
         window.parentLayout.render(entities)
         getUser(connection).then((user) => {
           window.parentLayout.setUser(user['name']);

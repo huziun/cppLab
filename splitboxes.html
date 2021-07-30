@@ -808,9 +808,11 @@
       function setProgressBarValue(value){
         $('#procent').text(parseInt(value)+' %')
         $('.progressbar-column').css({"background-color":'#565656'})
+        value=value*2.5
         let newValue = parseInt(value/7);
         console.log(newValue)
-        for(let i = 0; i<newValue; i++){
+        
+        for(let i = 0; i<newValue-1; i++){
           $('#'+i).css({"background-color":"#00CEAA" })
         }
       }
@@ -853,21 +855,22 @@
        
        
         
-        setCircleProgressbar(".temp",val);
+        setCircleProgressbar(".temp",val*2.5);
       }
       function setCO2(value){
+        ppm = value/9000*100
         let prev_val = parseInt($('#status-procent').text());
         console.log(prev_val);
         (prev_val > value) ? $('.co2_arrow').attr('class','fas fa-arrow-down ml-1 co2_arrow') : $('.co2_arrow').attr('class','fas fa-arrow-up ml-1 co2_arrow')
         $('.status-procent').text(parseInt(value));
-        $('.progress-value').css({"width":value+"%"})
-        
+        $('.progress-value').css({"width":ppm+"%"})
+   
       }
       function setO2(value){
         let prev_val = parseInt($('.status-procent-o2').text());
         (prev_val > value) ? $('#o2_arrow').attr('class','fas fa-arrow-down ml-1') : $('#o2_arrow').attr('class','fas fa-arrow-up ml-1')
         $('.status-procent-o2').text(parseInt(value));
-        $('.progress-value-o2').css({"width":value+"%"})
+        $('.progress-value-o2').css({"width":(value*3.5)+"%"})
         setProgressBarValue(value)
       }
       function setAltitude(value){
@@ -916,9 +919,10 @@
         function setProgressBarValueBox2(value){
           $('#procentBox2').text(parseInt(value)+' %')
           $('.progressbar-columnBox2').css({"background-color":'#565656'})
+          value=value*2.5
           let newValue = parseInt(value/7);
         
-          for(let i = 0; i<newValue; i++){
+          for(let i = 0; i<newValue-1; i++){
             $('#box2'+i).css({"background-color":"#86D4F2" })
           }
         }
@@ -961,21 +965,22 @@
          
          
           
-          setCircleProgressbar(".tempBox2",val);
+          setCircleProgressbar(".tempBox2",val*2.5);
         }
         function setCO2Box2(value){
+            ppm = value/9000*100
           let prev_val = parseInt($('#status-procentBox2').text());
           console.log(prev_val);
           (prev_val > value) ? $('.co2_arrowBox2').attr('class','fas fa-arrow-down ml-1 co2_arrowBox2') : $('.co2_arrowBox2').attr('class','fas fa-arrow-up ml-1 co2_arrowBox2')
           $('.status-procentBox2').text(parseInt(value));
-          $('.progress-valueBox2').css({"width":value+"%"})
+          $('.progress-valueBox2').css({"width":ppm+"%"})
           
         }
         function setO2Box2(value){
           let prev_val = parseInt($('.status-procent-o2Box2').text());
           (prev_val > value) ? $('#o2_arrowBox2').attr('class','fas fa-arrow-down ml-1') : $('#o2_arrowBox2').attr('class','fas fa-arrow-up ml-1')
           $('.status-procent-o2Box2').text(parseInt(value));
-          $('.progress-value-o2Box2').css({"width":value+"%"})
+          $('.progress-value-o2Box2').css({"width":(value*3.5)+"%"})
           setProgressBarValueBox2(value)
         }
         function setAltitudeBox2(value){
