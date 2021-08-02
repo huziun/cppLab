@@ -86,7 +86,7 @@
 
               <li class="nav-item mx-auto" style=" width:70%!important;">
   
-                <a href="" class="nav-link nav-link-r">
+                <a href="#" class="nav-link nav-link-r">
                   <i class="nav-icon fas fa-cog"></i>
                   <p>
                     Setting
@@ -96,12 +96,14 @@
     
                 <ul class="nav nav-treeview">
                   <li class="nav-item" style=" width:70%!important;">
-                      <a href="" class="nav-link nav-link-r">
+                      <a href="#" class="nav-link nav-link-r" onclick="includeHTML('settings.html')">
                      
                         <p>Hipoksja</p>
                       </a>
                     </li><li class="nav-item" style=" width:70%!important;">
-                      <a href="" class="nav-link nav-link-r">
+                      <a href="#" class="nav-link nav-link-r"  onclick="includeHTML('settings.html'); setTimeout(function(){
+                        $('#profile-tab2').trigger('click');
+                      },10)">
                        
                         <p>Hiperoksja</p>
                       </a>
@@ -338,6 +340,15 @@
           setTemp(this.entities["climate.study"]['attributes']["temperature"])
         }
       }
+      class Settings{
+        constructor(entity){
+          this.entities = entity
+        }
+        render(){
+          //setTemp(this.entities["climate.study"]['attributes']["temperature"]);
+          console.log("Settings Render")
+        }
+      }
       class Box1Factory {
         factory(entity){
           return new Box1(entity);
@@ -346,6 +357,11 @@
       class Box2Factory {
         factory(entity){
           return new Box2(entity)
+        }
+      }
+      class SettingsFactory {
+        factory(entity){
+          return new Settings(entity);
         }
       }
      
@@ -357,6 +373,9 @@
           case "box22.html":
            window.content = new Box2Factory;
            break;
+          case "settings.html":
+            window.content = new SettingsFactory;
+            break;
           case "parent":
             window.parentLayout.setFreeze(false);
             window.content = 'parent'
