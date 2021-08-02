@@ -193,7 +193,7 @@
                 .setting-form {
                     padding:5px;
                 }
-                .btnTime {
+                .btnTime,.btnControl {
                     background-color: transparent;
                     color:white;
                     border:2px solid white;
@@ -206,6 +206,13 @@
                 .btnTime:active{
                     background-color: white;
                     color:black;
+                }
+                .activeBtn {
+                    background-color: white;
+                    color:black;
+                }
+                #params2 {
+                    transition: 1s;
                 }
     </style>
 </head>
@@ -237,7 +244,7 @@
                                     Calibration box #1
                                 </div>
                                 <div class="reset" id="ResetBox1">
-                                    <div class="nav-link active d-flex justify-content-center align-items-center" style="background-color: transparent!important;;" id="box1View">Reset</div>
+                                    <div class="nav-link active d-flex justify-content-center align-items-center" style="background-color: transparent!important;;" id="box1View" onclick="resetBox1()">Reset</div>
                                 </div>
                             </div>
                             <div style="color:grey;font-size:20px">Set your parameters to create perfect coditions </div>
@@ -336,13 +343,13 @@
                         </div>
                         <hr style="background-color: black; width:100%;height:3px;">
                         <div class="d-flex justify-content-end">
-                           <button class="btnTime">Finish</button>
-                           <button class="btnTime">Start</button> 
+                           <button class="btnTime" id="finishBox1">Finish</button>
+                           <button class="btnTime" id="startBox1">Start</button> 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 params2">
                 <div id="params2">
                     <nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-start " style="background-color: #302D2E;margin-left:0px;border: none!important;">
                         <!-- Left navbar links -->
@@ -355,7 +362,7 @@
                                     Calibration box #2
                                 </div>
                                 <div class="reset" id="ResetBox2">
-                                    <div class="nav-link active d-flex justify-content-center align-items-center" style="background-color: transparent!important;;" id="box1View">Reset</div>
+                                    <div class="nav-link active d-flex justify-content-center align-items-center" style="background-color: transparent!important;;" id="box1View" onclick="resetBox2();">Reset</div>
                                 </div>
                             </div>
                         <div style="color:grey;font-size:20px">Set your parameters to create perfect coditions </div>
@@ -452,8 +459,8 @@
                         </div>
                         <hr style="background-color: black; width:100%;height:3px;">
                         <div class="d-flex justify-content-end">
-                           <button class="btnTime">Finish</button>
-                           <button class="btnTime">Start</button> 
+                           <button class="btnControl" id='finishBox2'>Finish</button>
+                           <button class="btnControl" id="startBox2">Start</button> 
                         </div>
                     </div>
                 </div>
@@ -514,6 +521,83 @@
         function setO2(value,obj){
             $('.o2'+obj).val(parseInt(value))
         }
+        //Time buttons select Active button
+        $('.btnTime').click(function(){
+            let activeElement = $(this)
+            $('.btnTime').attr('class','btnTime');
+            activeElement.attr('class','btnTime activeBtn')
+        }) 
+        //Switch functions
+        var i=0;
+    
+        function HideBox(){
+            $('.nameBox').text('Calibration Box #1 & Box #2')
+            $('.params2').hide();
+        }
+        function ShowBox(){
+            $('.nameBox').text('Calibration Box #1')
+            $('.params2').show();
+        }
+        $('.switch_1').click(function(){
+            
+            (i%2==0) ? HideBox():ShowBox();
+            
+            i++;
+        })
+        function resetBox1(){
+            setAltitude(10,"Box1")
+            setTemp(15,"Box1")
+            setHumidity(25,"Box1") 
+            setO2(900,"Box1")
+        }
+        function resetBox2(){
+             
+            setAltitude(10,"Box2")
+            
+            setTemp(15,"Box2")
+           
+            setHumidity(25,"Box2")
+           
+            setO2(900,"Box2")
+        }
+        $('.advance').click(function(){
+           resetBox1();
+           resetBox2();
+        })
+        function setBoth(data){
+            console.log("Set For Both", data)
+            window.CallService(connection,"climate",'set_temperature',{
+                entity_id: "climate.study",
+                temperature: parseInt(data['temp'])
+              }).then(()=>{console.log('called Service from Global function')})
+        }
+        function setBox(data,box){
+            console.log("Set for: "+box, data)
+          
+            window.CallService(connection,"climate",'set_temperature',{
+                entity_id: "climate.study",
+                temperature: parseInt(data['temp'])
+              }).then(()=>{console.log('called Service from Global function')})
+        }
+        $('#startBox1').click(function(){
+            
+            var data = []
+                data["altitude"] =  $('.altBox1').val(),
+                data['o2'] = $('.o2Box1').val(),
+                data['temp']=$('.tempBox1').val(),
+                data['humidity']=$('.humidityBox1').val(),
+            
+            (i%2!=0) ? setBoth(data) : setBox(data,"Box1");
+        })
+        $('#startBox2').click(function(){
+            var data = []
+            data["altitude"] =  $('.altBox1').val(),
+            data['o2'] = $('.o2Box1').val(),
+            data['temp']=$('.tempBox1').val(),
+            data['humidity']=$('.humidityBox1').val(),
+            
+            setBox(data,"Box2");
+        })
     </script>
 </body>
 </html>

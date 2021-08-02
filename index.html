@@ -206,6 +206,7 @@
         ERR_HASS_HOST_REQUIRED,
       } from "./dist/index.js";
       var logined;
+      window.CallService = callService;
       (async () => {
         //create Auth object for connection into HA
         let auth;
@@ -223,7 +224,7 @@
           }
         }
         //create Connections
-        const connection = await createConnection({ auth });
+        window.connection = await createConnection({ auth });
         subscribeEntities(connection, (entities) =>
          
           renderEntities(connection, entities)
@@ -233,10 +234,10 @@
           window.entityList = entities
         );
         //call service example
-        callService(connection,"climate",'set_temperature',{
-          entity_id: "climate.study",
-          temperature: 50
-        }).then(()=>{console.log("called")});
+        //callService(connection,"climate",'set_temperature',{
+        //  entity_id: "climate.study",
+        //  temperature: 50
+        //}).then(()=>{console.log("called")});
         // Clear url if we have been able to establish a connection
         if (location.search.includes("auth_callback=1")) {
           history.replaceState(null, "", location.pathname);
