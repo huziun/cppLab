@@ -207,7 +207,7 @@
       } from "./dist/index.js";
       var logined;
       (async () => {
-       
+        //create Auth object for connection into HA
         let auth;
         logined = auth;
         try {
@@ -222,7 +222,7 @@
             return;
           }
         }
-        
+        //create Connections
         const connection = await createConnection({ auth });
         subscribeEntities(connection, (entities) =>
          
@@ -232,6 +232,7 @@
          
           window.entityList = entities
         );
+        //call service example
         callService(connection,"climate",'set_temperature',{
           entity_id: "climate.study",
           temperature: 50
@@ -321,9 +322,10 @@
       window.renderParent=function(entityList){
         console.log(entityList)
         setTimeout(function(){  setTemp(entityList["climate.study"]['attributes']["temperature"])
-        setTempBox2(entityList["climate.study"]['attributes']["temperature"])},50)
+        setTempBox2(entityList["climate.study"]['attributes']["temperature"])},100)
       
       }
+      //Class for every loading page with rendering options ...
       class Box1 {
         constructor(entity){
           this.entities = entity
@@ -345,10 +347,12 @@
           this.entities = entity
         }
         render(){
-          //setTemp(this.entities["climate.study"]['attributes']["temperature"]);
-          console.log("Settings Render")
+          setTemp(this.entities["climate.study"]['attributes']["temperature"],"Box1");
+          setTemp(this.entities["climate.study"]['attributes']["temperature"],"Box2");
+         
         }
       }
+      
       class Box1Factory {
         factory(entity){
           return new Box1(entity);
@@ -364,7 +368,7 @@
           return new Settings(entity);
         }
       }
-     
+     // loading html page and create factory object 
       function includeHTML(file) {
         switch(file){
           case "boxx111.html":
@@ -383,7 +387,7 @@
           default:
             break;
           }
-        console.log(window.content)
+        
         $('#main').empty();
         
         $("#main").load(file)

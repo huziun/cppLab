@@ -478,6 +478,7 @@
                 $('.'+obj).val(parseInt($('.'+obj).val())-1)
             }
         }
+        //SLide both tab panels
         $('#home-tab2').on('triggered',function(){
             var someTabTriggerEl = document.querySelector('#home-tab2')
             var tab = new bootstrap.Tab(someTabTriggerEl)
@@ -490,6 +491,7 @@
           
             tab.show()
         })
+        //Keydown ivent for temp and Humidity in Hiperoksja and Hipoksja (synchronize inputs) 
         $('input').keydown(function(){
             let elem = $(this)
             setTimeout(function(){
@@ -497,6 +499,21 @@
             },100)
             
         })
+        //setters for render in index.html
+        //value is int , obj is string "Box1" or "Box2"
+        function setTemp(value,obj){
+            $('.temp'+obj).val(parseInt(value));
+        }
+      
+        function setHumidity(value,obj){
+            $('.humidity'+obj).val(parseInt(value))
+        }
+        function setAltitude(value,obj){
+            $('.alt'+obj).val(parseInt(value))
+        }
+        function setO2(value,obj){
+            $('.o2'+obj).val(parseInt(value))
+        }
     </script>
 </body>
 </html>
