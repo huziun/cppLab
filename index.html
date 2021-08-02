@@ -223,8 +223,9 @@
             return;
           }
         }
+       
         //create Connections
-        window.connection = await createConnection({ auth });
+        const connection = await createConnection({ auth });
         subscribeEntities(connection, (entities) =>
          
           renderEntities(connection, entities)
@@ -233,6 +234,7 @@
          
           window.entityList = entities
         );
+
         //call service example
         //callService(connection,"climate",'set_temperature',{
         //  entity_id: "climate.study",
@@ -251,6 +253,34 @@
           window.user = user;
         });
       })();
+      window.triggerTime = function(time,box = "both" ){//expecting 30, 60 , 90, 120
+        let second = 0;
+      
+
+        switch(time){
+            case "30 min":
+                second  = 30;
+            break;
+            case "60 min":
+                second = 60;
+            break;
+            case "90 min":
+                second = 90;
+            break;
+            case "120 min":
+                second = 120;
+            break;
+        }
+        second = second*60*1000;
+        console.log(second)
+        setTimeout(function(){
+          callService(connection,"climate",'set_temperature',{
+            entity_id: "climate.study",
+            temperature: 15
+          }).then(()=>{console.log("reset")});
+        },second)
+
+      }
       class ParentLayout {
         constructor(){
           this.renderDefault = true;

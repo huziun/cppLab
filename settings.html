@@ -343,8 +343,8 @@
                         </div>
                         <hr style="background-color: black; width:100%;height:3px;">
                         <div class="d-flex justify-content-end">
-                           <button class="btnTime" id="finishBox1">Finish</button>
-                           <button class="btnTime" id="startBox1">Start</button> 
+                           <button class="btnControl" id="finishBox1">Finish</button>
+                           <button class="btnControl" id="startBox1">Start</button> 
                         </div>
                     </div>
                 </div>
@@ -524,8 +524,10 @@
         //Time buttons select Active button
         $('.btnTime').click(function(){
             let activeElement = $(this)
+            $('#active').attr('id','ew')
             $('.btnTime').attr('class','btnTime');
             activeElement.attr('class','btnTime activeBtn')
+            activeElement.attr('id','active')
         }) 
         //Switch functions
         var i=0;
@@ -570,6 +572,10 @@
                 entity_id: "climate.study",
                 temperature: parseInt(data['temp'])
               }).then(()=>{console.log('called Service from Global function')})
+              if(data['time']!=""){
+                  window.triggerTime(data['time'])
+              }
+              
         }
         function setBox(data,box){
             console.log("Set for: "+box, data)
@@ -578,6 +584,9 @@
                 entity_id: "climate.study",
                 temperature: parseInt(data['temp'])
               }).then(()=>{console.log('called Service from Global function')})
+              if(data['time']!=""){
+                window.triggerTime(data['time'],box)
+            }
         }
         $('#startBox1').click(function(){
             
@@ -586,7 +595,7 @@
                 data['o2'] = $('.o2Box1').val(),
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
-            
+                data['time'] = $('#active').text(),
             (i%2!=0) ? setBoth(data) : setBox(data,"Box1");
         })
         $('#startBox2').click(function(){
@@ -595,7 +604,7 @@
             data['o2'] = $('.o2Box1').val(),
             data['temp']=$('.tempBox1').val(),
             data['humidity']=$('.humidityBox1').val(),
-            
+            data['time'] = $('#active').text(),
             setBox(data,"Box2");
         })
     </script>
