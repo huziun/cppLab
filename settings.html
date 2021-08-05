@@ -578,15 +578,43 @@
               
         }
         function setBox(data,box){
-            console.log("Set for: "+box, data)
           
-            window.CallService(connection,"climate",'set_temperature',{
-                entity_id: "climate.study",
-                temperature: parseInt(data['temp'])
-              }).then(()=>{console.log('called Service from Global function')})
-              if(data['time']!=""){
-                window.triggerTime(data['time'],box)
+            console.log("Set for: "+box, data)
+            let position = "";
+            (parseInt(data['temp'])>18) ? position = "above" : position="below"
+            switch(data['time']){
+                case "30 min":
+                    
+                    window.CallService(connection, "automation","turn_on",{
+                      entity_id: "automation.30min"+box+position
+                    }).then(()=>{console.log('service called',"automation.30min"+box+position)})
+                break;
+                case "60 min":
+                    window.CallService(connection, "automation","turn_on",{
+                        entity_id: "automation.60min"+box+position
+                    }).then(()=>{console.log('service called',"automation.60min"+box+position)})
+                break;
+                case "90 min":
+                    window.CallService(connection, "automation","turn_on",{
+                        entity_id: "automation.90min"+box+position
+                    }).then(()=>{console.log('service called',"automation.90min"+box+position)})
+                break;
+                case "120 min":
+                    window.CallService(connection, "automation","turn_on",{
+                        entity_id: "automation.120min"+box+position
+                    }).then(()=>{console.log('service called',"automation.120min"+box+position)})
+                break;
             }
+            setTimeout(function(){
+                window.CallService(connection,"climate",'set_temperature',{
+                    entity_id: "climate.study",
+                    temperature: parseInt(data['temp'])
+                  }).then(()=>{console.log('called Service from Global function')})
+                  if(data['time']!=""){
+                    //window.triggerTime(data['time'],box)
+                }
+            },1000)
+            
         }
         $('#startBox1').click(function(){
             
@@ -596,7 +624,7 @@
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
                 data['time'] = $('#active').text(),
-            (i%2!=0) ? setBoth(data) : setBox(data,"Box1");
+            (i%2!=0) ? setBoth(data) : setBox(data,"box1");
         })
         $('#startBox2').click(function(){
             var data = []
@@ -605,7 +633,7 @@
             data['temp']=$('.tempBox1').val(),
             data['humidity']=$('.humidityBox1').val(),
             data['time'] = $('#active').text(),
-            setBox(data,"Box2");
+            setBox(data,"box2");
         })
     </script>
 </body>

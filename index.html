@@ -255,11 +255,14 @@
       })();
       window.triggerTime = function(time,box = "both" ){//expecting 30, 60 , 90, 120
         let second = 0;
-      
+        console.log("Selected box inside trigger time: "+box)
 
         switch(time){
             case "30 min":
                 second  = 30;
+                callService(connection, "automation","turn_on",{
+                  entity_id: "automation.30minbox1"
+                }).then(()=>{console.log('service called')})
             break;
             case "60 min":
                 second = 60;
@@ -273,12 +276,13 @@
         }
         second = second*60*1000;
         console.log(second)
-        setTimeout(function(){
+        // this a custom universal trigger 
+        /**setTimeout(function(){
           callService(connection,"climate",'set_temperature',{
             entity_id: "climate.study",
             temperature: 15
           }).then(()=>{console.log("reset")});
-        },second)
+        },second)**/
 
       }
       class ParentLayout {
