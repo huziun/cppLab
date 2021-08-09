@@ -566,6 +566,15 @@
            resetBox1();
            resetBox2();
         })
+
+
+        function addMinutes(time, minsToAdd) {
+            function D(J){ return (J<10? '0':'') + J;};
+            var piece = time.split(':');
+            var mins = piece[0]*60 + +piece[1] + +minsToAdd;
+
+            return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);  
+        }  
         function setBoth(data){
             console.log("Set For Both", data)
             window.CallService(connection,"climate",'set_temperature',{
@@ -578,8 +587,8 @@
               
         }
         function setBox(data,box){
-          
-            console.log("Set for: "+box, data)
+           // using numeric state triggers 
+           /* console.log("Set for: "+box, data)
             let position = "";
             (parseInt(data['temp'])>18) ? position = "above" : position="below"
             switch(data['time']){
@@ -614,6 +623,23 @@
                     //window.triggerTime(data['time'],box)
                 }
             },1000)
+            */
+            //Using Time Triggers
+            minutes = data['time'];
+            min=minutes.replace(" min",'')
+
+            window.CallService(connection,"automation","turn_on",{
+                entity_id: "automation.timetrigger"
+            }).then(()=>{
+                window.CallService(connection,"input_datetime","set_datetime",{
+                    entity_id:"input_datetime.c",
+                    time: addMinutes(window.entityList['sensor.time']['state'],min)
+            })}).then(()=>{
+                window.CallService(connection,"climate",'set_temperature',{
+                    entity_id: "climate.study",
+                    temperature: parseInt(data['temp'])
+                }).then(()=>{console.log('called Service from Global function')})
+            })
             
         }
         $('#startBox1').click(function(){
@@ -628,11 +654,11 @@
         })
         $('#startBox2').click(function(){
             var data = []
-            data["altitude"] =  $('.altBox1').val(),
-            data['o2'] = $('.o2Box1').val(),
-            data['temp']=$('.tempBox1').val(),
-            data['humidity']=$('.humidityBox1').val(),
-            data['time'] = $('#active').text(),
+                data["altitude"] =  $('.altBox1').val(),
+                data['o2'] = $('.o2Box1').val(),
+                data['temp']=$('.tempBox1').val(),
+                data['humidity']=$('.humidityBox1').val(),
+                data['time'] = $('#active').text(),
             setBox(data,"box2");
         })
     </script>
