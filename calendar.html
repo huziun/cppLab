@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang='pl'>
+<head>
+  <meta charset='utf-8'/>
+  <!--  <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>-->
+<!--  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">-->
+
+  <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+
+  <link href='css/fullcalendar.css' rel='stylesheet'/>
+
+  <!--  <link href='css/bootstrap.css' rel='stylesheet' />-->
+    <link href='css/bootstrap-darky.css' rel='stylesheet' />
+  
+
+<!--timepicer-->
+
+<!--  <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>-->
+<!--  <link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>-->
+<link rel="stylesheet" href="src/mini-event-calendar.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+  <style>
+   .fc-timegrid-axis{
+     
+    border: none!important;
+   }
+   th .fc-timegrid-axis {
+     border:none;
+   }
+   .fc-toolbar-chunk {
+     display: flex;
+   }
+   #wrapper {
+    position: absolute;
+    top: 90px;
+    z-index: 9999;
+    left: 180px;
+   }
+   h4{
+     font-weight: bold;
+   }
+   ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  </style>
+
+  
+
+  <script src='js/fullcalendar.js'>    </script>
+  <script src='locale/pl.js'>          </script>
+  
+  <script src="js/jquery.i18n.messagestore.js"></script>
+  <script src='js/script.js'></script>
+  <link href='css/style.css' rel='stylesheet'/>
+  <!--  Datapicker-->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css' rel='stylesheet' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+
+</head>
+<body style="background-color: #1c1c1c;">
+
+<div class="row"></div>
+
+<div  id='calendar'></div>
+
+<!-- Modal -->
+<div class="modal fade fade2" id="timeSlotModal" tabindex="-1" aria-labelledby="timeSlotModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-xl2">
+    <form id="addTimeSlotForm" name="addTimeSlotForm" action="data/save.php" method="post">
+    <div class="modal-content modal-content2">
+      <div class="modal-header" style="justify-content: flex-end;">
+        <h5 class="modal-title" id="timeSlotModalLabel" ></h5>
+        <button type="button" id="closeModal2" class="btn btn-primary hyp-btn hyp-btn2" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+        <button type="submit" id="addTimeSlot" class="btn btn-primary hyp-btn hyp-btn2 ">Save </button>
+      </div> 
+     
+      <div class="modal-body d-flex justify-content-between">
+       
+        <div class="box-sec">
+          <div class="box-sec-sm">
+            <h4>Training</h4>
+            <div class="mb-4">
+              <label for="title" class="form-label hypoint-color" >Name</label>
+              <input type="text" name="title" class="form-control hypoint-input hyp-inpt-text" id="title">
+            </div>
+            <div>
+              Quick name selection
+              <div class="mt-2 d-flex justify-content-start">
+                <button type="button" class="btn hypoint-btn2" onclick="nameInput('Training')">Training</button>
+                <button type="button" class="btn hypoint-btn2" onclick="nameInput('Bike')">Bike</button>
+                <button type="button" class="btn hypoint-btn2" onclick="nameInput('Cross')">Cross</button>
+                <button  type="button" class="btn hypoint-btn2" onclick="nameInput('TRX')">TRX</button>
+              </div>
+              
+            </div>
+          </div>
+          <div class="box-sec-sm">
+            <h4>Parameters</h4>
+            <div class="mb-3 form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="choose_box " class="hypoint-color" >Choose Box</label>
+                  <input type="hidden" name="choose_box" id="box-selector">
+                  <div class="d-flex justify-content-between" style="width: 350px;">
+                    <div class="select" id="selected-div1" style="height: 50px;">
+                      Box #1
+                    </div>
+                    <div class="select" id="selected-div2" style="height: 50px;">
+                      Box #2
+                    </div>
+                </div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="mb-3 form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="temperature" class="hypoint-color" data-i18n="Temperature"></label>
+                  <div class="d-flex justify-content-between" style="width:350px">
+                    <input type="number" name="temperature" style='width:210px' min="10" value="10" id="temperature" class="form-control hyp-inpt-text temperature"/>
+                    <div class="d-flex">
+                        <button type="button" class="btn hypoint-btn2" onclick="increment('temperature')">+</button>
+                    <button type="button" class="btn hypoint-btn2" onclick="decrement('temperature')">-</button>
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="humidity" class="hypoint-color" data-i18n="Humidity"></label>
+                  
+                  <div class="d-flex justify-content-between" style="width:350px">
+                    <input type="number" name="humidity" id="humidity"  style='width:210px' class="form-control hyp-inpt-text humidity" min="35" value="35"/>
+                    <div class="d-flex">
+                      <button type="button" class="btn hypoint-btn2" onclick="increment('humidity')">+</button>
+                  <button type="button" class="btn hypoint-btn2" onclick="decrement('humidity')">-</button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-sec-sm">
+          <h4>Time</h4>
+          <div class="mb-3 form-group">
+            <div class="row" >
+              <div class="col-md-4">
+                <div class="row form-group" style="flex-direction: column;">
+                  <div class="col-md-4" >
+                    <label for="start_time" class="hypoint-color" data-i18n="Start Time">Start Time</label>
+                  </div>
+                  <div class="col-md-8 d-flex">
+                    <input type="text hypoint-input" name="start_time" id="start_time" class="form-control hyp-inpt-text" readonly/>
+                    <button type="button" class="btn hypoint-btn2" id="start"><i class="fas fa-angle-down"></i></button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-4" >
+                <div class="row form-group"  style="flex-direction: column;">
+                  <div class="col-md-4 ">
+                    <label for="finish_time" class="hypoint-color" data-i18n="Finish Time">Finish Time</label>
+                    
+                  </div>
+                  <div class="col-md-8 d-flex">
+                    <input type="text" name="finish_time" id="finish_time" class="form-control hyp-inpt-text" readonly/>
+                    <button type="button" class="btn hypoint-btn2" id="finish"><i class="fas fa-angle-down"></i></button>
+                  </div>
+                </div>
+              </div>
+
+                <div class="col-md-4 d-flex"  style="flex-direction: column;">
+                  <label for="date" class="hypoint-color" data-i18n="Date">Date</label>
+                  <input type="date"  name="date" id="date" class="form-control hyp-inpt-text">
+                  
+                </div>
+              </div>
+            
+            </div>
+            <hr style="height: 1px; background-color:black;opacity:0.5">
+            <div class="row">
+              
+              <div class="col-md-3">
+                <div class="row form-group" style="flex-direction:column;">
+                    <label for="buffer_time" data-i18n="Buffer Time" class="col-sm-5 col-form-label hypoint-color" style="width:120px;">Buffer Time</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control hyp-inpt-text" name="buffer_time" id="buffer_time" readonly style="width: 170px;">
+                    </div>
+                  </div>
+              </div>
+              <div class="col-md-9">
+                <label for="" class="col-sm-5 col-form-label">Quick Selection</label>
+                <div class="d-flex mt-2">
+                  <button type="button" class="btn hypoint-btn2 danger-hyp selectionButton" onclick="setBuffer('No buffer')">No buffer</button>
+                  <button type="button" class="btn hypoint-btn2 selectionButton" onclick="setBuffer('1:00')">60 min</button>
+                  <button type="button" class="btn hypoint-btn2 selectionButton" onclick="setBuffer('1:30')">90 min</button>
+                  <button type="button" class="btn hypoint-btn2 selectionButton" onclick="setBuffer('2:00')">120 min</button>
+                </div>
+              </div>
+            </div>
+            <hr style="height: 1px; background-color:black;opacity:0.5">
+            <div class="col-md-12 d-flex justify-content-end">
+              <button type="button" id="addConfiguration" class="btn hypoint-btn2 green" aria-label="Left Align">
+                <i class="fas fa-plus"></i>&nbsp;Add
+              </button>
+              <button type="button" id="removeConfiguration" class="btn hypoint-btn2 danger-hyp ml-2" aria-label="Left Align">
+                <i class="fas fa-minus"></i>&nbsp;Remove
+              </button>
+            </div>
+            <input type="hidden" value="NaN" id="EventId" name="EventId">
+            <div class="configurationRows" id="configurationRows">
+             
+            </div>
+          </div>
+         
+        </div>
+          
+        
+          
+          
+
+
+         
+        
+
+      </div></form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel"  data-i18n="Are You Sure"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+<!--      <div class="modal-body">-->
+<!--        ...-->
+<!--      </div>-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary hyp-btn" data-bs-dismiss="modal" data-i18n="Close"></button>
+        <button type="button" class="btn btn-primary hyp-btn" id="delete-event" data-i18n="Delete">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="wrapper">
+		
+	
+  <div style="width: 400px;">
+    <div id="calendar2"></div>
+
+  </div>
+</div>
+
+
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>-->
+<script src='js/fullcalendar.js'></script>
+<script src='locale/pl.js'></script>
+<script src='js/bootstrap.js'></script>
+
+<script src='js/jquery.i18n.js'></script>
+<script src="js/jquery.i18n.messagestore.js"></script>
+<script src='js/script.js'></script>
+<script src="js/jquery.timepicker.js"></script>
+<script src="js/kit.js"></script>
+<script src="src/mini-event-calendar.js"></script>
+<script>
+  $.ready(function(){
+    $('.fc-timegrid-axis').css({"border":"none"})
+  })
+  var sampleEvents = [];
+  
+  function increment(obj){
+    $('.'+obj).val(parseInt($('.'+obj).val())+1)
+  }
+  function decrement(obj){
+      if( parseInt($('.'+obj).val())>0){
+          $('.'+obj).val(parseInt($('.'+obj).val())-1)
+      }
+  }
+    
+  $(document).click(function(event) { 
+    var $target = $(event.target);
+    if(!$target.closest('#wrapper').length && 
+    $('#wrapper').is(":visible")) {
+        $('#wrapper').hide();
+    }        
+  });
+  function miniCal(){
+    
+    ($("#wrapper").is(":hidden")) ? setTimeout(function(){$('#wrapper').show() },50) : $('#wrapper').hide()
+    
+  }
+  function showModal(){
+    setTimePickerForBuffer("buffer_time", "");
+    setTimePicker("start_time", "");
+    setTimePicker("finish_time", "");
+    $('#timeSlotModal').modal('show')
+  }
+  function nameInput(str){
+    $('#title').val(str)
+  }
+  $('.select').click(function(){
+    let element = $(this);
+    function select (str){
+      var elem = $('#box-selector')
+      if((element).attr('class')=="select") {
+        element.attr('class','select select'+str)
+        if(elem.val()==''){
+          elem.val("box"+str);
+          console.log(elem.val())
+        }
+        else {
+          if(elem.val()!=("box"+str)){
+            elem.val(elem.val()+"box"+str)//generate str box1box2 
+            console.log(elem.val())
+          }
+        }
+      } else {
+        element.attr('class','select');
+        if(elem.val()=="box"+str){
+          elem.val("")
+        }
+        else {
+          (str=="1") ? elem.val('box2') : elem.val('box1')
+        }
+        console.log(elem.val())
+      }
+    }
+    (element.attr('id')=="selected-div1") ? select("1") : select("2");
+    
+  })
+  function setBuffer(str){
+    $('#buffer_time').val(str);
+  }
+  window.ChooseBox = function (box){
+    console.log(box)
+    
+    
+    $('#selected-div2').attr('class','select')
+    $('#selected-div1').attr('class','select')
+    function chooseBox(select_id){
+      
+      $('#selected-div'+select_id).trigger('click');
+    }
+    if(box == "box2"){
+      chooseBox('2');
+    }
+    if(box == "box1"){
+      chooseBox('1');
+    }
+    if(box=="box1box2" || box=="box2box1"){
+      chooseBox('2')
+      chooseBox('1')
+    }
+  }
+  $('span').click(function(){
+    console.log("Long live")
+  })
+  $('#addTimeSlotForm').submit(function(e){
+    e.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    $.ajax({
+    type: "POST",
+    url: url,
+    data: form.serialize(), // serializes the form's elements.
+    success: function(data)
+    {
+        console.log(data);
+        includeHTML('calendar.html');
+        $('.modal-backdrop').attr('class','');
+    }
+    });
+  })
+  
+</script>
+</body>
+</html>
+
+

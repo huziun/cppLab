@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="assets/admin.min.css">
     <link rel="stylesheet" href="assets/bootstrap.min.css">
     <link rel="stylesheet" href="assets/style.css">
-
+    <link href='css/bootstrap-darky.css' rel='stylesheet' />
 
     <style>
       
@@ -44,7 +44,7 @@
     }
     </style>
     <script src="assets/font.js"></script>
-
+ 
   </head>
   <body class="layout-fixed" style="background-color: #1C1D1C;">
     <!-- Main Sidebar Container -->
@@ -112,7 +112,7 @@
               </li>
 
               <li class="nav-item mx-auto" style=" width:70%!important;">
-                <a href="" class="nav-link nav-link-r">
+                <a href="#" class="nav-link nav-link-r" onclick="includeHTML('calendar.html')">
                   <i class="nav-icon fas fa-calendar-alt"></i>
                   <p>
                     Calendar
@@ -190,8 +190,9 @@
  <div id="main" style="background-color: #1C1D1C;" >
   
  </div>
-  
-    <script src="assets/jquery.min.js"></script>
+ 
+    <script src="js/jquery-3.6.0.min.js"></script>
+
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/scriptd.js"></script>
@@ -388,6 +389,36 @@
         }
       }
       
+      var rendering = 0
+      class Calendar {
+        constructor(){
+     
+        }
+        render(){
+          
+            setTimeout(function(){
+              if(rendering==0){
+              generateView();
+
+              $("#calendar2").MEC({
+                  from_monday: true,
+                  events: sampleEvents
+                  });
+              
+                  $('.a-date').attr('onclick','console.log("text")');
+                  $('#wrapper').hide();
+              
+                  console.log('onload')
+                  $('.fc-toolbar-chunk:eq('+2+')').append('<div class="hypoint-btn2 green" id="week">Copy week</div>')
+                  $('.fc-toolbar-chunk:eq('+2+')').append('<div class="hypoint-btn2 green" id="create" onclick="showModal()"><i class="fas fa-plus"></i>&nbsp;Create</div>')
+                  $('.fc-today-button').after("<div class='hypoint-btn2' style='width:55px!important' onclick='miniCal()'><i class='far fa-calendar'></i>&nbsp;&nbsp;<i class='fas fa-chevron-down'></i></div>")
+      
+              rendering = 1 
+            }
+            },100)
+          }
+        }
+      
       class Box1Factory {
         factory(entity){
           return new Box1(entity);
@@ -401,6 +432,11 @@
       class SettingsFactory {
         factory(entity){
           return new Settings(entity);
+        }
+      }
+      class CalendarFactory{
+        factory(entity){
+          return new Calendar
         }
       }
      // loading html page and create factory object 
@@ -419,7 +455,11 @@
             window.parentLayout.setFreeze(false);
             window.content = 'parent'
             break;
+          case "calendar.html":
+            rendering = 0;
+            window.content = new CalendarFactory;
           default:
+            
             break;
           }
         
