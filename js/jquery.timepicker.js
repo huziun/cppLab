@@ -521,12 +521,12 @@
 
             close: function(i) {
                 var widget = this;
-
-                if (widget.instance === i) {
+               // console.log('closed' , i)
+                
                     widget.container.addClass('ui-helper-hidden ui-timepicker-hidden').hide();
                     widget.ui.scrollTop(0);
                     widget.ui.children().removeClass('ui-state-hover');
-                }
+                
 
                 $(document).unbind('click.timepicker-' + i.element.data('timepicker-event-namespace'));
 
