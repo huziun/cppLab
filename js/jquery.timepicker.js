@@ -23,6 +23,7 @@
         function normalize() {
             if (arguments.length === 1) {
                 var date = arguments[0];
+                
                 if (typeof date === 'string') {
                     date = $.fn.timepicker.parseTime(date);
                 }
@@ -312,6 +313,9 @@
 
             deactivate: function() {
                 var widget = this;
+                if(widget.viewport==undefined){
+                    widget = window.calendarWidget;
+                }
                 if (!widget.active) { return; }
                 widget.active.children('a').removeClass('ui-state-hover').removeAttr('id');
                 widget.active = null;
@@ -366,7 +370,10 @@
                 var widget = this,
                     selectedTime = i.getTime(),
                     arrange = i.options.dynamic && selectedTime;
-
+                console.log(widget);
+                if(widget.viewport==undefined){
+                    widget = window.calendarWidget;
+                }
                 // return if dropdown is disabled
                 if (!i.options.dropdown) { return i.element; }
 
@@ -408,8 +415,18 @@
                             widget.select(i, $(this).parent());
                         });
                     } else {
-                        widget.viewport.children().detach();
-                        widget.viewport.append(i.items);
+                        if(widget.viewport != undefined) {
+                            window.calendarWidget = widget;
+                            widget.viewport.children().detach();
+                            widget.viewport.append(i.items);
+                            
+                        }
+                        else {
+                            widget = window.calendarWidget
+                            widget.viewport.children().detach();
+                            widget.viewport.append(i.items);
+                        }
+                        
                     }
                 }
 
@@ -486,10 +503,11 @@
                         } else {
                             time = item.data('time-value');
                         }
-
+                        if(time != undefined){
                         if (time.getTime() === selectedTime.getTime()) {
                             widget.activate(i, item);
                             return false;
+                        }
                         }
                         return true;
                     });

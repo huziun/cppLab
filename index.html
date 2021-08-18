@@ -192,7 +192,7 @@
  </div>
  
     <script src="js/jquery-3.6.0.min.js"></script>
-
+    <script src="js/jquery.timepicker.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/scriptd.js"></script>
@@ -355,6 +355,7 @@
     </script>
     
     <script >
+      window.calendarWidget = "";
       window.renderParent=function(entityList){
         console.log(entityList)
         setTimeout(function(){  setTemp(entityList["climate.study"]['attributes']["temperature"])

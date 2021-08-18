@@ -494,7 +494,8 @@ function deleteEvent(id){
         
 
         request.send(params);
-        includeHTML('calendar.html');
+        generateView();
+        $('#timeSlotModal').modal('hide')
         $('.modal-backdrop').attr('class','');
     })
 }

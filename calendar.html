@@ -380,7 +380,8 @@
     success: function(data)
     {
         console.log(data);
-        includeHTML('calendar.html');
+        generateView();
+        $('#timeSlotModal').modal('hide')
         $('.modal-backdrop').attr('class','');
     }
     });
