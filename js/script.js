@@ -216,6 +216,7 @@ function loadData() {
             'dataType': "json",
             'success': function (data) {
                 json = data;
+                console.log(data);
             }
         });
         return json;

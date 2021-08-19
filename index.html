@@ -326,6 +326,62 @@
           
         }
       }
+      class EventReader {
+        constructor(){
+          console.log("Constructor")
+          this.loadEvents();
+        }
+        loadEvents(){
+          var events = null;
+          $.ajax({
+            'async': false,
+            'global': false,
+            'url': "data/events.json",
+            'dataType': "json",
+            'success': function (data) {
+                events = data;     
+                console.log(events);
+            }
+        });
+        this.events = events;
+        }
+        findAndStart(date){
+          const event = this.getEventByDate(date);
+          console.log(date);
+          var end = event['end'].split("T");
+          console.log(end);
+          if(event!=null){
+            window.CallService(connection,"automation","turn_on",{
+              entity_id: "automation.timetrigger"
+            }).then(()=>{
+                window.CallService(connection,"input_datetime","set_datetime",{
+                    entity_id:"input_datetime.c",
+                    time: end[1]
+                })}).then(()=>{
+                    window.CallService(connection,"climate",'set_temperature',{
+                        entity_id: "climate.study",
+                        temperature: event['temperature']
+                    }).then(()=>{console.log('Event Start')})
+            })
+            //callService(connection,"climate",'set_temperature',{
+              //entity_id: "climate.study",
+              //temperature: event['temperature']
+            //}).then(()=>{console.log('Event set temp')})
+          }
+        }
+        getEventByDate(date){
+         var event = null;
+         for (var i = 0; i < this.events.length; i++){
+            if(this.events[i]['start'] == date){
+              event = this.events[i];
+            }
+         }
+         return event; // return event or null
+        }
+      }
+      
+      window.eventReader = new EventReader();
+      window.eventReader.getEventByDate();
       window.parentLayout = new ParentLayout;
       window.renderBox1 = function(){
       
@@ -343,6 +399,10 @@
       function renderEntities(connection, entities) {
     
         (window.content == 'parent' || window.content == undefined) ? window.parentLayout.setRenderDefault(true) : window.parentLayout.setRenderDefault(false) 
+        window.eventReader.loadEvents();
+        setTimeout(function(){
+         window.eventReader.findAndStart(entities['sensor.date']['state']+'T'+entities['sensor.time']['state']); 
+        },100)
         
         window.parentLayout.render(entities)
         getUser(connection).then((user) => {
@@ -356,6 +416,7 @@
     
     <script >
       window.calendarWidget = "";
+      
       window.renderParent=function(entityList){
         console.log(entityList)
         setTimeout(function(){  setTemp(entityList["climate.study"]['attributes']["temperature"])
