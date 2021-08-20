@@ -48,11 +48,14 @@
             border-radius: 50%;
             background: #1c1c1c;
             border: 2px solid #8bf021;
+            height:70px;
+            width: 70px;
+            top:-15px;
             -webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
                     box-shadow: 0 0 .25em rgba(0,0,0,.3);
             -webkit-transform: scale(.7);
                     transform: scale(.7);
-            left: 0;
+            left: -15px;
             -webkit-transition: all .2s ease-in-out;
             transition: all .2s ease-in-out;
           }
@@ -193,7 +196,7 @@
                 .setting-form {
                     padding:5px;
                 }
-                .btnTime,.btnControl {
+                .btnTime,.btnControl,.btnTime2 {
                     background-color: transparent;
                     color:white;
                     border:2px solid white;
@@ -202,6 +205,10 @@
                     height:50px;
                     
                     margin:5px;
+                }
+                .btnTime2:active {
+                    background-color: white;
+                    color:black;
                 }
                 .btnTime:active{
                     background-color: white;
@@ -214,14 +221,43 @@
                 #params2 {
                     transition: 1s;
                 }
+                .grey-box {
+                    opacity: 0.9;
+                    background-color: #302d2e;
+                    position: absolute;
+                    width: 600px;
+                    height: 555px;
+                    top: 35px;
+                    z-index: 9999;
+                    display: none;
+                }
     </style>
 </head>
 <body style="background-color: #1c1c1c;">
+    <div class="modal fade" id="noTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content bg-dark">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+              <button type="button" class="close close_warning_set" data-dismiss="modal" aria-label="Close" id="close_warning_set">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Please, select time !
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary close_warning_set" data-dismiss="modal" id="close_warning_set">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
     <div style="background-color: #1c1c1c;color:white;width: 121%;padding-left:20px">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between ">
             
                 <div class="switch_box box_1">
-                    <input type="checkbox" class="switch_1">&nbsp;Set for both
+                    <input type="checkbox" class="switch_1">&nbsp;&nbsp;&nbsp;&nbsp;Set for both
                 </div>
               <div class="advance" >
                 <i class="fa fa-cog" aria-hidden="true" style="text-decoration: underline;"></i>&nbsp;Advance setting
@@ -341,6 +377,7 @@
                                 <button class=" btnTime">120 min</button>
                             </div>
                         </div>
+                        <div class="grey-box" id="block-box1"></div>
                         <hr style="background-color: black; width:100%;height:3px;">
                         <div class="d-flex justify-content-end">
                            <button class="btnControl" id="finishBox1">Finish</button>
@@ -451,12 +488,13 @@
                                 <h3>Set for</h3>
                             </div>
                             <div class="d-flex">
-                                <button class=" btnTime">30 min</button>
-                                <button class=" btnTime">60 min</button>
-                                <button class=" btnTime">90 min</button>
-                                <button class=" btnTime">120 min</button>
+                                <button class=" btnTime2">30 min</button>
+                                <button class=" btnTime2">60 min</button>
+                                <button class=" btnTime2">90 min</button>
+                                <button class=" btnTime2">120 min</button>
                             </div>
                         </div>
+                        <div class="grey-box" id="block-box2"></div>
                         <hr style="background-color: black; width:100%;height:3px;">
                         <div class="d-flex justify-content-end">
                            <button class="btnControl" id='finishBox2'>Finish</button>
@@ -528,6 +566,13 @@
             $('.btnTime').attr('class','btnTime');
             activeElement.attr('class','btnTime activeBtn')
             activeElement.attr('id','active')
+        }) 
+        $('.btnTime2').click(function(){
+            let activeElement = $(this)
+            $('#active2').attr('id','ew')
+            $('.btnTime2').attr('class','btnTime2');
+            activeElement.attr('class','btnTime2 activeBtn')
+            activeElement.attr('id','active2')
         }) 
         //Switch functions
         var i=0;
@@ -642,24 +687,46 @@
             })
             
         }
+        $('.close_warning_set').click(function(){
+            $('#noTime').modal('hide');
+        })
+        $('#finishBox1').click(function(){
+            $('#block-box1').css('display','none');
+        })
+        $('#finishBox2').click(function(){
+            $('#block-box2').css('display','none');
+        })
         $('#startBox1').click(function(){
-            
+            if($('#active').text()==""){
+                
+                $('#noTime').modal('show');
+            }
+            else {
+            $('#block-box1').css('display','block');
             var data = []
                 data["altitude"] =  $('.altBox1').val(),
                 data['o2'] = $('.o2Box1').val(),
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
-                data['time'] = $('#active').text(),
-            (i%2!=0) ? setBoth(data) : setBox(data,"box1");
+                data['time'] = $('#active').text()
+            }
+            //(i%2!=0) ? setBoth(data) : setBox(data,"box1");
         })
         $('#startBox2').click(function(){
+            if($('#active2').text()==""){
+                
+                $('#noTime').modal('show');
+            }
+            else {
+            $('#block-box2').css('display','block');
             var data = []
                 data["altitude"] =  $('.altBox1').val(),
                 data['o2'] = $('.o2Box1').val(),
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
-                data['time'] = $('#active').text(),
-            setBox(data,"box2");
+                data['time'] = $('#active').text()
+            //setBox(data,"box2");
+            }
         })
     </script>
 </body>
