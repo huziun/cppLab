@@ -346,11 +346,16 @@
         this.events = events;
         }
         findAndStart(date){
+          
           const event = this.getEventByDate(date);
           console.log(date);
-          var end = event['end'].split("T");
-          console.log(end);
-          if(event!=null){
+         
+          if(event!=null){ 
+            var end = event['end'].split("T");
+            console.log(end);
+            this.rows = event['configurationRows'];
+            console.log(this.rows);
+            
             window.CallService(connection,"automation","turn_on",{
               entity_id: "automation.timetrigger"
             }).then(()=>{
@@ -369,6 +374,15 @@
             //}).then(()=>{console.log('Event set temp')})
           }
         }
+        startRows(time){
+          for(var i = 0; i < this.rows.length; i++){
+            if(this.rows[i].time == time){
+              console.log("Configuration Rows Detected")
+              this.rows.slice(i,1).then(()=>{console.log(this.rows)});
+            }
+          }
+        }
+        
         getEventByDate(date){
          var event = null;
          for (var i = 0; i < this.events.length; i++){
@@ -402,6 +416,7 @@
         window.eventReader.loadEvents();
         setTimeout(function(){
          window.eventReader.findAndStart(entities['sensor.date']['state']+'T'+entities['sensor.time']['state']); 
+         window.eventReader.startRows(entities['sensor.time']['state']);
         },100)
         
         window.parentLayout.render(entities)
